@@ -12,4 +12,15 @@ export default class FetchService implements FetcherRulesService {
       error: null
     }
   }
+
+  async getExternalAPI(path: string): Promise<Result> {
+    if (!path) throw new Error('path.required')
+    const response = await fetch(
+      `https://my-json-server.typicode.com/typicode/demo/${path}`
+    )
+    return {
+      data: await response.json(),
+      error: null
+    }
+  }
 }

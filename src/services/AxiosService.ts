@@ -1,35 +1,25 @@
 import axios from 'axios'
-import FetcherRulesService from './FetcherRulesService'
+import FetcherRulesService, { Result } from './FetcherRulesService'
 
 export default class AxiosService implements FetcherRulesService {
   URL: String = process.env.SERVER_API
 
-  async post(path: string, data: object) {
+  async get(path: string) {
     if (!path) throw new Error('path.required')
-    const response = await axios.post(`${URL}${path}`, data)
+    const response = await axios.post(`${URL}${path}`)
     return {
       data: response,
       error: null
     }
   }
 
-  async get() {
+  async getExternalAPI(path: string): Promise<Result> {
+    if (!path) throw new Error('path.required')
+    const response = await axios.get(
+      `https://my-json-server.typicode.com/typicode/demo/${path}`
+    )
     return {
-      data: {},
-      error: null
-    }
-  }
-
-  async update() {
-    return {
-      data: {},
-      error: null
-    }
-  }
-
-  async delete() {
-    return {
-      data: {},
+      data: response.data,
       error: null
     }
   }
